@@ -2,9 +2,8 @@
 
 <ul>
   <li *ngFor="let post of posts$">
-    <ul>
-      <li><strong>{{ post.title }}</strong></li>
-      <li>{{ post.body }}</li>
-    </ul>
+    <a routerLink="">{{ post.title }}</a>
+      
+    <p>{{ post.body }}</p>
   </li>
 </ul>
