@@ -13,8 +13,11 @@ export class PostsComponent implements OnInit {
 
   constructor(private data: DataService) { }
 
+  // on component initialization
   ngOnInit() {
+    // calls method from data.service
     this.data.getPosts().subscribe(
+      // sets data as response from function getPosts()
       data => this.posts$ = data
     );
   }
