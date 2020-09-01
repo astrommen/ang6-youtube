@@ -1,27 +1,72 @@
 # Ang6Youtube
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
+ This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
 
-## Development server
+<br>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Practicing Angular 10
 
-## Code scaffolding
+  DesignCourse [Learn Angular 6 in 60 Minutes - Free Beginners Crash Course](https://www.youtube.com/watch?v=z4JUm0Bq9AM)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## How to Use
+  - There are 2 pages a visitor can select: users page and posts page.
 
-## Build
+    - When the visitor selects the users page, a list of users and some information is shown.
+      - The visitor can see additional information when selecting a single user.
+    - When the visitor selects the posts page, a list of posts is shown.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+---------------------------------
+---------------------------------
+<br>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Encountered the Following Issues
 
-## Running end-to-end tests
+- Class Binding for page indicator styling
+  - code for Ang6 in sidebar component:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+        import { Component, OnInit } from '@angular/core';
+        import { Router, NavigationEnd } from '@angular/router';
 
-## Further help
+        export class SidebarComponent implements OnInit {
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+          currentUrl: string;
+
+          constructor(private router: Router) {
+            router.events.subscribe(
+              (_: NavigationEnd) => this.currentUrl = _.url);
+          }
+
+          ngOnInit() {}
+
+        }
+
+  - code for Ang10 from sidebar component:
+          
+        import { Component, OnInit } from '@angular/core';
+        import { Router, NavigationEnd, Event } from '@angular/router';
+        import { filter } from 'rxjs/operators';
+
+        @Component({
+          selector: 'app-sidebar',
+          templateUrl: './sidebar.component.html',
+          styleUrls: ['./sidebar.component.scss']
+        })
+
+        export class SidebarComponent implements OnInit {
+
+          currentUrl: string;
+
+          constructor(private router: Router) {
+            console.log(router.url);
+
+            this.router.events.pipe(
+              filter(event => event instanceof NavigationEnd))
+              .subscribe(event => {
+              // casting event before accessing url from https://github.com/angular/angular/issues/15439
+              this.currentUrl = (event as NavigationEnd).url;
+            })
+          }
+          
+          ngOnInit() {}
+        }
